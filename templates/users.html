@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Avatar</th>
+          <th scope="col">First Name</th>
+          <th scope="col">Last Name</th>
+          <th scope="col">Username</th>
+        </tr>
+      </thead>
+    <tbody>
+        {% for profile in profiles %}
+            <tr>
+                <th scope="row">{{ profile.id }}</th>
+                <td>
+                    {% if profile.image %}
+                        <img src="{{ profile.image.url }}" width="20px" alt="">
+                    {% endif %}
+                </td>
+                <td>{{ profile.firstname }}</td>
+                <td>{{ profile.lastname }}</td>
+                <td>@<a href="{% url 'about_user' profile.pk %}">{{ profile.user.username }}</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+
+
+    <div>
+        
+
+        <p></p>
+    </div>
+
+
+{% endblock %}
+
+
+

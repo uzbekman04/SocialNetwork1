@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .content{
+        margin: 50px;
+    }
+</style>
+
+
+<div class="column">
+
+    <div class="block">
+    <h1 class="title is-1">
+        {{profile.firstname}} {{profilelastname}}
+    </h1>
+    <h4>@{{profile.user.username}}</h4>
+    </div>
+    
+    <form action="follow" method="post">{% csrf_token %}
+        <div class="buttons has-addons">
+            {% if profile in user.profile.follows.all %}
+                <button class="" disabled>Follow</button>
+                <button class="button is-danger" name="follow" value="unfollow">Unfollow</button>
+            {% else %}
+                <button class="button is-success" name="follow" value="follow">Follow</button>
+                <button class="button is-danger is-static" disabled>Unfollow</button>
+            {% endif %}
+        </div>
+    </form>
+</div>
+
+<div class="content">
+    <h5>Followings: [{{ profile.follows.count }}]</h5>
+    {% if profile.follows.count != 0 %}
+        <ul class="list-group list-group-flush">
+            {% for following in profile.follows.all %}
+                <li class="list-group-item"><a href="{% url 'about_user' following.pk %}">{{ following }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        {{ profile.user.username }} does not have any followings yet...
+    {% endif %}
+</div>
+
+
+<div class="content">
+    <h5>Followers: [{{ profile.followed_by.count }}]</h5>
+    {% if profile.followed_by.count != 0 %}
+        <ul class="list-group list-group-flush">
+            {% for follower in profile.followed_by.all %}
+                <li class="list-group-item"><a href="{% url 'about_user' follower.pk %}">{{ follower }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        {{ profile.user.username }} does not have any followers yet...
+    {% endif %}
+</div>
+
+
+
+<div class="content">
+    {% if profile.firstname %}
+        <h5>{{profile.firstname}}'s posts</h5>
+    {% else %}
+        <h5>{{profile.user.username}}'s posts</h5>
+    {% endif %}
+
+    {% if profile.user.posts.count != 0 %}
+        <ol>
+            {% for post in profile.user.posts.all %}
+                <li>
+                    <img src="{{post.image.url}}" height="400" width="350">
+                    <a href="{% url 'about' post.pk %}" style="text-decoration: none;">
+                        {{ post.description }}
+                    </a>
+                    <span class="is-small has-text-grey-light">
+                        ({{ post.created_date }})
+                    </span>
+                </li>
+            {% endfor %}
+        </ol>
+    {% else %}
+        {{ profile.user.username }} does not have any posts yet...
+    {% endif %}
+</div>
+
+{% endblock %}

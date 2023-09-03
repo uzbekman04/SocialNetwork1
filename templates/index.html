@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+
+    .float-container {
+        border: 3px solid #fff;
+        padding: 20px;
+    }
+
+    .float-child {
+        width: 50%;
+        float: left;
+        padding: 20px;
+    }
+
+    .form{
+        display: flex;
+        justify-content: center;
+    }
+
+    .tweet {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 10px;
+        border-top: 1px solid #e1e1e1;
+        padding: 10px;
+        padding-top: 20px;
+        margin: 0 0 30px 0;
+    }
+
+    .tweet-avatar img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+
+    .tweet-content {
+        display: grid;
+        grid-template-rows: auto 1fr auto auto;
+        gap: 5px;
+    }
+
+    .tweet-author {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .tweet-date {
+        font-size: 12px;
+        color: #888;
+    }
+
+    .tweet-body {
+        font-size: 30px;
+        color: #333;
+        display: inline-grid;
+    }
+    .base-image{
+        width: auto;
+        height: 200px;
+    }
+
+
+</style>
+    <div class="float-container">
+
+        <div class="float-child" id="posts">
+                {% for postss in posts %}
+                    {% for post in postss %}
+
+                <div class="tweet">
+                    <div class="tweet-avatar">
+                        {% if post.user.image %}
+                            <img src="{{ post.user.image.url }}" alt="Author Avatar">
+                        {% else %}
+                            <img src="user.png" alt="Profileni rasmi yoq">
+                        {% endif %}
+                    </div>
+                    <div class="tweet-content">
+
+                        <div class="tweet-author">
+                            <span class="author-name">{{post.user.user.username}}</span>
+                            <span class="tweet-date">{{ post.created_data }}</span>
+                        </div>
+                        <a href="{% url 'about' post.pk %}" style="text-decoration: none;">
+                            <div class="tweet-body">
+                                <img class="base-image" src="{{post.image.url}}" width="303" height="404">
+                                {{ post.description }}
+                            </div>
+                        </a>
+
+                        <a href="{% url 'about' post.pk %}" style="margin-top: 15px;">See Comments</a>
+
+                    </div>
+                </div>
+                {% endfor %}
+                {% endfor %}
+            <p>Follow <a href="{% url 'users' %}">other users</a> to see more posts</p>
+        </div>
+    </div>
+{% endblock %}
