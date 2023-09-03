@@ -43,8 +43,8 @@ python manage.py runserver
 
 
 Contact
-If you have any questions or suggestions, please feel free to contact the project owner:
+If you have any questions or suggestions, please feel free to contact me:
 
-Name: Your Name
+Name: Azizbek Adxamjonov
 Email: uzbekcoder04@gmail.com
 Happy coding!
